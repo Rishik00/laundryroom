@@ -1,0 +1,10 @@
+[
+    {
+      "title": "Leslie Lamport & Distributed Systems",
+      "date": "2025-11-25",
+      "description": "Reflecting on the pivotal contributions of Dr. Lamport, focusing specifically on the Paxos algorithm and its real-world applications in consensus.",
+      "badge": "SPOTLIGHT",
+      "category": "Theory",
+      "link": "#"
+    }
+]

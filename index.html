@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Laundry Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap');
+        
+        :root {
+            --bg-body: #0a0a0a;
+            --bg-card: #171717;
+            --text-main: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --accent-color: var(--text-main);
+            --border-color: #262626;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%23101010' fill-opacity='0.2'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        ::selection {
+            background-color: rgba(229, 229, 229, 0.15);
+            color: #ffffff;
+        }
+        
+        .content-area {
+            max-width: 46rem;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-glow {
+            text-shadow: 0 0 8px rgba(229, 229, 229, 0.4), 0 0 2px rgba(229, 229, 229, 0.6);
+            transition: text-shadow 0.3s ease;
+        }
+
+        .focus-box {
+            box-shadow: 0 0 10px rgba(229, 229, 229, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .focus-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 20px rgba(229, 229, 229, 0.15), 0 0 10px rgba(229, 229, 229, 0.1);
+        }
+
+        a {
+            color: var(--text-main);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        nav a {
+            border-bottom: none;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: staggeredFadeIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: var(--delay, 0s); 
+        }
+
+        @keyframes staggeredFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#262626]">
+        <nav class="content-area mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tight hover:text-white transition-colors brand-font brand-glow">
+                The Laundry Room
+            </a>
+            <ul class="flex space-x-6 text-sm">
+                <li><a href="index.html" class="nav-link active">Intro</a></li>
+                <li><a href="notes.html" class="nav-link">Notes</a></li>
+                <li><a href="github.com/LaundryRoom" class="nav-link">Github</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content-area mx-auto px-6 py-16 min-h-screen">
+        <h2 class="text-2xl font-bold text-white mb-6 stagger-item" style="--delay: 0.1s;">Introduction</h2>
+        
+        <div class="space-y-8">
+            <p class="text-lg text-[#d4d4d4] font-light leading-relaxed stagger-item" style="--delay: 0.3s;">
+                Hi, this is my personal space. I read and recreate for fun. Whatever I want. It can be my favourite paper, repo or product. I also write about it. Hope you find it interesting!
+            </p>
+
+            <div class="bg-[#111] p-6 rounded-lg border border-[#262626] focus-box stagger-item" style="--delay: 0.5s;">
+                <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-4 mono-font">Focus Areas</h3>
+                <ul class="space-y-3 text-[#a3a3a3] text-sm">
+                    <li class="flex items-start">
+                        <span class="text-white mr-2 mono-font">01.</span>
+                        <span><strong>Anything computation related</strong></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-white mr-2 mono-font">02.</span>
+                        <span><strong>Anything ML related</strong></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-white mr-2 mono-font">03.</span>
+                        <span><strong>Legacy Refactoring:</strong> Modernizing old codebases, maybe learning a thing or 2.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="my-16 border-t border-[#262626] stagger-item" style="--delay: 0.7s;"></div>
+
+        <h2 class="text-2xl font-bold text-white mb-8 stagger-item" style="--delay: 0.9s;">Contact Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-sm text-[#a3a3a3] stagger-item" style="--delay: 1.1s;">
+            <div>
+                <p class="font-bold text-white mb-1">Rishikesh</p>
+                <p class="mb-4">Maintainer</p>
+                <a href="mailto:contact@laundryroom.edu" class="text-white hover:text-[#d4d4d4] border-b border-[#e5e5e5]/30 hover:border-[#d4d4d4]/30">mrishikesh104@gmail.com</a>
+            </div>
+            <div>
+                <div class="flex space-x-6 mt-4 mono-font text-xs">
+                    <a href="#" class="hover:text-white border-b-0">GITHUB</a>
+                    <a href="#" class="hover:text-white border-b-0">TWITTER</a>
+                    <a href="#" class="hover:text-white border-b-0">RSS</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
