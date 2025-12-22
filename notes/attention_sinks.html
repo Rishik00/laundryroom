@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <!-- Post Metadata -->
+    <title>Attention sinks</title>
+    <meta name="description" content="A deep dive into Differential Attention and how it reduces noise allocation in transformer architectures.">
+    <meta name="author" content="The Laundry Room">
+    <meta name="keywords" content="transformers, attention, differential attention, deep learning">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- KaTeX (Math Rendering) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    </head>
+    <body>
+
+    <article data-status="published" data-category="paper-review">
+      
+                <header>
+                    <h1>Attention sinks</h1>
+                    <div class="meta">
+                    <time datetime="2025-01-11">2025-01-11</time>
+                    <span class="reading-time">6 min read</span>
+                    </div>
+                </header>
+            <p>Date Added:
+Status:</p>
+<p><a href="https://arxiv.org/pdf/2410.10781">Read it here</a></p>
+<ul>
+<li>[Paper] Auto-regressive Language Models (LMs) assign significant attention to the first token, even if it is not semantically important, which is known as attention sink. The sink position is highly correlated with the loss function and data distribution.</li>
+<li>Apparently it's because of massive activations for the first token, and large norm. Additionally it's said that they emerge during pretraining. </li>
+<li>[Paper] Based on open-sourced auto-regressive LMs, we show that the first token acts as biases: the angles between the first key and queries of other tokens are typically small, leading to attention sink.</li>
+<li>They're saying that the calculation of the hidden states for the first token has massive L2 norm and has no involvement of self attention. We also note that the large activations makes the query, keys and values to end up in different dimensions of some manifold and $q_tk_1$ to be much much much higher than $q_tk_{j \neq 1}$.</li>
+<li>The authors propose a metric to measure attention sinks for the kth token index, i.e. $$Sink=\frac{1}{L} \sum_{l=1}^L \frac{1}{H} \sum_{h=1}^H I (\alpha_k &gt; \epsilon)$$</li>
+<li>The authors also train small scale models and measure the sink along with the loss. Graphs suggest that the sink goes up while the loss goes down. Turns out smaller learning rates can delay the emergence of attention sinks. </li>
+<li>[Paper] Additionally, we find with more random tokens during pre-training, attention sink tends to disappear</li>
+<li>[Paper] Attention sink could be shifted to other positions rather than the first token if modifying $P_{data}$, the underlying data distribution.</li>
+<li>Turns out, weight decay promotes attention sinks? [Paper] Then a larger γ encourages more heads to have attention sink. And RoPE is actually a good thing, based on their outputs rope helps in mitigating attention sinks. </li>
+<li>The authors talk about attention sinks as a form of bias for all the other tokens towards the first one. </li>
+<li>[Paper] When relaxing tokens’ inner dependence on attention scores, attention sink does not emerge in LMs</li>
+</ul></article> </body> </html>
