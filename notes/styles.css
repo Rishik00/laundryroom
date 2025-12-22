@@ -1,0 +1,297 @@
+/* ============================================
+   The Laundry Room — Blog Stylesheet
+   ============================================ */
+
+   :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #141414;
+    --text: #e5e5e5;
+    --text-muted: #a3a3a3;
+    --text-dim: #525252;
+    --border: #262626;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-heading: 'Space Grotesk', var(--font-body);
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ::selection {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+  
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* --- Article --- */
+  article {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+  
+  /* --- Header --- */
+  article header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  article header h1 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  /* --- Headings --- */
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  
+  h2 {
+    font-size: 1.375rem;
+    margin: 2.5rem 0 1rem;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    margin: 2rem 0 0.75rem;
+    color: var(--text);
+  }
+  
+  h4 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--text);
+  }
+  
+  /* --- Paragraphs --- */
+  p {
+    margin-bottom: 1.25rem;
+    color: var(--text-muted);
+  }
+  
+  /* --- Links --- */
+  a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  
+  a:hover {
+    color: #fff;
+    border-color: var(--text-muted);
+  }
+  
+  /* --- Bold & Italic --- */
+  strong { color: var(--text); font-weight: 600; }
+  em { font-style: italic; }
+  
+  /* --- Lists --- */
+  ul, ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.5rem;
+    color: var(--text-muted);
+  }
+  
+  li {
+    margin-bottom: 0.4rem;
+    line-height: 1.7;
+  }
+  
+  li::marker {
+    color: var(--text-dim);
+  }
+  
+  ul ul, ol ol, ul ol, ol ul {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    padding-left: 1.25rem;
+  }
+  
+  ul { list-style-type: disc; }
+  ul ul { list-style-type: circle; }
+  ul ul ul { list-style-type: square; }
+  
+  ol { list-style-type: decimal; }
+  ol ol { list-style-type: lower-alpha; }
+  
+  ul + ul, ol + ol {
+    margin-top: -1rem;
+  }
+  
+  li strong {
+    color: var(--text);
+  }
+  
+  /* --- Blockquote --- */
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 2px solid var(--text-dim);
+    background: var(--bg-elevated);
+    font-style: italic;
+    color: var(--text-muted);
+  }
+  
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* --- Code: Inline --- */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 0.15em 0.4em;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  
+  /* --- Code: Block --- */
+  pre {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  
+  pre code {
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+  }
+  
+  /* --- Images --- */
+  figure {
+    margin: 2rem 0;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+  }
+  
+  figcaption {
+    margin-top: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  
+  /* --- Horizontal Rule --- */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+  
+  /* --- Math --- */
+  .math-block {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+  }
+  
+  /* --- Callouts --- */
+  aside, .callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  
+  .callout-title {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  
+  .callout p:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* --- Tables --- */
+  table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  th {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+  
+  td {
+    color: var(--text-muted);
+  }
+  
+  /* --- Article Footer --- */
+  article footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    article { padding: 2.5rem 1rem 4rem; }
+    article header h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 0.875rem; font-size: 0.75rem; }
+  }

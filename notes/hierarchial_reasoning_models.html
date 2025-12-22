@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <!-- Post Metadata -->
+    <title>Hierarchial Reasoning Models</title>
+    <meta name="description" content="A deep dive into Differential Attention and how it reduces noise allocation in transformer architectures.">
+    <meta name="author" content="The Laundry Room">
+    <meta name="keywords" content="transformers, attention, differential attention, deep learning">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- KaTeX (Math Rendering) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    </head>
+    <body>
+
+    <article data-status="published" data-category="paper-review">
+      
+                <header>
+                    <h1>Hierarchial Reasoning Models</h1>
+                    <div class="meta">
+                    <time datetime="2025-01-11">2025-01-11</time>
+                    <span class="reading-time">6 min read</span>
+                    </div>
+                </header>   
+<p><a href="https://arxiv.org/pdf/2506.21734">Find the paper here here</a></p>
+<ul>
+<li>Inspired by the brain. Has 2 modules - one that does planning and the other that does the execution. Operates without pretraining data</li>
+<li>[Paper] HRM is designed to significantly increase the effective computational depth. It features two coupled recurrent modules: a high-level (H) module for abstract, deliberate reasoning, and a low-level (L) module for fast, detailed computations.</li>
+<li>Inspired by 3 processes<ul>
+<li><strong>Heirarchial processing</strong>: Higher-level areas integrate information over longer timescales and form abstract representations, while lower-level areas handle more immediate, detailed sensory and motor processing</li>
+<li><strong>Temporal separation</strong>: These hierarchical levels in the brain operate at distinct intrinsic timescales, reflected in neural rhythms</li>
+<li><strong>Recurrent connectivity</strong> that provide tight feedback loops</li>
+</ul>
+</li>
+<li>Has 4 networks: <ol>
+<li>Input net $F_I$ for projecting to a working representation.</li>
+<li>Low level recurrent module $F_L$ updates every step with the inputs from $F_I$, the model's previous and current states. </li>
+<li>High level recurrent module $F_H$ that only updates once every $T$ cycles using the $F_L$ outputs</li>
+<li>Output net $F_O$ that predicts the next state using the vector $y = f_O (z_H;\theta_O)$ </li>
+</ol>
+</li>
+<li>The higher level model acts as the context for the lower model to make decisions and arrive at an equilibrium. Also the BPTT algorithm used here is constant time (compared to the usual O(T) algorithm) by approximating the gradients. </li>
+<li>[Paper] As empirically shown in Figure 3, this mechanism allows HRM both to maintain high computational activity (forward residual) over many steps (in contrast to a standard RNN, whose activity rapidly decays) and to enjoy stable convergence</li>
+<li>Inspired by the adaptive computation from neuroscience, they introduced an adaptive halting method using deep supervision and Q learning. A Q head uses the final state of the high module to predict the Q values of the <strong>half/continue</strong> actions. </li>
+<li>[Weird, read this again] The halt or continue action is chosen using a randomized strategy as detailed next. Let$M_{max}$ denote the maximum number of segments (a fixed hyperparameter) and $M_{min}$ denote the minimum number of segments (a random variable). The value of $M_{min}$ is determined stochastically: with probability ε, it is sampled uniformly from the set {2, · · · , $M_{max}$} (to encourage longer thinking), and with probability 1−ε, it is set to 1. The halt action is selected under two conditions: when the segment count surpasses the maximum threshold Mmax, or when the estimated halt value Qˆ halt exceeds the estimated continue value Qˆ continue and the segment count has reached at least the minimum threshold $M_{min}$.</li>
+<li>The Q learning method follows episodic markov decision process (MDP). The state of the MDP is the segment and the action space is {halt, continue}. Choosing halt returns a binary reward based on ${y^m=y}$ whereas continue gives no reward and the state transitions to $z^{m+1}$ </li>
+<li>The loss function is defined as $$ L_{ACT} = LOSS (y^m, y) + BINARYCROSSENTROPY(Q^m, G^m)$$</li>
+<li>The model is sequence to sequence. It contains an embedding layer $f_I$  and outputs are via softmax of the output layer $f_O(z; \theta_O) =softmax(\theta_O z)$ </li>
+</ul></article> </body> </html>

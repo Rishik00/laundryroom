@@ -1,10 +1,18 @@
 [
-    {
-      "title": "Leslie Lamport & Distributed Systems",
-      "date": "2025-11-25",
-      "description": "Reflecting on the pivotal contributions of Dr. Lamport, focusing specifically on the Paxos algorithm and its real-world applications in consensus.",
-      "badge": "SPOTLIGHT",
-      "category": "Theory",
-      "link": "#"
-    }
+  {
+    "title": "Differential Transformer",
+    "date": "2025-01-11",
+    "description": "A deep dive into Differential Attention and how it reduces noise allocation in transformer architectures by subtracting two softmax attention maps.",
+    "badge": "PAPER REVIEW",
+    "category": "Attention",
+    "link": "/laundryroom/notes/differential_transformer.html"
+  },
+  {
+    "title": "AlphaZero: Tree Search Evolution",
+    "date": "2024-12-08",
+    "description": "A walkthrough of our MCTS implementation. We discuss distributed training challenges and compare performance metrics against DeepMind's reported figures.",
+    "badge": "REPRODUCTION",
+    "category": "Silver et al.",
+    "link": "notes/alphazero-mcts.html"
+  }
 ]

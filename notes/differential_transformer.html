@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Post Metadata -->
+  <title>Differential Transformer — The Laundry Room</title>
+  <meta name="description" content="A deep dive into Differential Attention and how it reduces noise allocation in transformer architectures.">
+  <meta name="author" content="The Laundry Room">
+  <meta name="keywords" content="transformers, attention, differential attention, deep learning">
+  
+  <!-- Structured Data Attributes (machine-readable) -->
+  <meta name="article:published_time" content="2025-01-11">
+  <meta name="article:section" content="Research Notes">
+  <meta name="article:tag" content="Transformers">
+  <meta name="article:tag" content="Attention">
+  <meta name="article:tag" content="Paper Review">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- KaTeX (Math Rendering) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+
+<article data-status="published" data-category="paper-review">
+  
+  <header>
+    <h1>Differential Transformer</h1>
+    <div class="meta">
+      <time datetime="2025-01-11">2025-01-11</time>
+      <span class="reading-time">6 min read</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>What I Understand</h2>
+    
+    <p>Transformers tend to over-allocate their attention to tokens that aren't relevant to the query. This is a fundamental inefficiency in standard self-attention mechanisms.</p>
+    
+    <p>Hence a new type of attention called <strong>Differential Attention</strong> was proposed to cancel out the noisy parts of normal self-attention. The implementation was carried out using the <a href="#">Flash Attention</a> module.</p>
+    
+    <p>This seems to have improved the transformer's capabilities to understand and tackle tasks that require longer context. Their scaling laws suggested that the differential transformer was able to rival the transformer's performance while being within <strong>65% of its size</strong>.</p>
+  </section>
+
+  <section>
+    <h2>The Governing Equation</h2>
+    
+    <p>The differential attention mechanism has the following governing equation:</p>
+    
+    <p>Let's dig into this equation. It suggests that we perform self-attention for two query and key matrices $Q_1, Q_2, K_1, K_2$ where $[Q_1 : Q_2] = XW^Q$ and $[K_1 : K_2] = XW^K$, with $W^Q$, $W^K$, and $W^V$ as parameters and $\lambda$ as a learnable scalar.</p>
+    
+    <div class="math-block">
+      $$\text{DiffAttn}(X) = \left( \text{softmax}\left(\frac{Q_1 K_1^T}{\sqrt{d}}\right) - \lambda \, \text{softmax}\left(\frac{Q_2 K_2^T}{\sqrt{d}}\right) \right)V$$
+    </div>
+    
+    <p>Here, the parameter $\lambda$ is computed using:</p>
+    
+    <div class="math-block">
+      $$\lambda = \exp(\lambda_{q_1} \cdot \lambda_{k_1}) - \exp(\lambda_{q_2} \cdot \lambda_{k_2}) + \lambda_{\text{init}}$$
+    </div>
+    
+    <p>The idea of this subtraction is analogous to <em>differential amplifiers</em> that difference two signals to remove noise.</p>
+  </section>
+
+  <section>
+    <h2>Multi-Head Differential Attention</h2>
+    
+    <p>The same principle is followed for accumulating the outputs of multiple differential attention heads:</p>
+    
+    <aside class="callout">
+      <div class="callout-title">Note</div>
+      <p>$\lambda_{\text{init}}$ is a constant scalar, $W^O \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ is a learnable projection matrix, and RMSNorm is used for each head before concatenation.</p>
+    </aside>
+    
+    <p>$(1 - \lambda_{\text{init}})$ is used for aligning the gradients for the transformer. Additional improvements include using <strong>SwiGLU</strong> activation and <strong>Rotary Positional Embeddings</strong> along with RMSNorm for layer normalization.</p>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    
+    <h3>Scalability</h3>
+    <p>Differential transformer is scalable in terms of parameter count. Various model sizes trained on up to 0.25M tokens for up to 40k steps suggest this. The training follows a very similar fit to the transformer model but achieves much lower loss with 60% of the original parameters.</p>
+    
+    <h3>Long Context Evaluation</h3>
+    <p>The differential transformer was able to achieve lower negative log likelihood compared to transformer when sequence length increases.</p>
+    
+    <h3>Needle in a Haystack</h3>
+    <p>This benchmark was used for information retrieval, where answers were inserted at 0, 25, 50, 75, and 100% depths of sequences:</p>
+    
+    <ul>
+      <li>Accuracy was &gt;80% when number of needles were &lt;2</li>
+      <li>With &gt;2 needles, accuracy goes down steadily</li>
+      <li>Differential transformer's accuracy was up to <strong>30% higher</strong> than standard transformer</li>
+    </ul>
+    
+    <p>A peek into the attention scores suggests that the differential transformer was much more effective at removing noise, especially during longer context tasks.</p>
+    
+    <h3>Activation Outliers</h3>
+    <p>In large language models, a subset of activations manifests with significantly larger values compared to the majority—called <em>activation outliers</em>. These outliers make quantization difficult. Research shows that differential transformer has lower amounts of activation outliers.</p>
+  </section>
+
+  <hr>
+
+  <footer>
+    <p>Source: <a href="https://arxiv.org/pdf/2410.05258">arXiv:2410.05258</a></p>
+  </footer>
+
+</article>
+
+</body>
+</html>
