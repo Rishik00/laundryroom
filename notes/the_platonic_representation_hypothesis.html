@@ -40,5 +40,30 @@
 Status:</p>
 <p><a href="https://arxiv.org/pdf/2405.07987v5">Read it here</a></p>
 <ul>
-<li>[Paper] We argue that representations in AI models, particularly deep networks, are converging. </li>
+<li>[Paper] We argue that representations (termed as vector embeddings) in AI models, particularly deep networks, are converging. </li>
+<li>[Paper] We hypothesize that this convergence is driving toward a shared statistical model of reality, akin to Plato’s concept of an ideal reality. </li>
+<li>Such a representation is called a "Platonic representation". The authors also argue that this convergence is not across architectures but also modalities. </li>
+<li>[Paper] As models are trained on more data and for more tasks, they require representations that capture more and more information about Z, and hence alignment toward Z increases toward a convergent point as a function of scale</li>
+<li>The authors define representational alignment by checking the similarity of the similarity structures (also called a kernel, which measures how the representation captures distances) induced by the representations. So, they're saying that "almost all models at sufficient scale ate converging in terms of what they capture."</li>
+<li>Apparently there are “Rosetta Neurons” that are activated by the same pattern across a range of vision models. Such neurons form a common dictionary independently discovered by all models.</li>
+<li>[Paper] The discussion so far indicates that various models are aligning toward a unified representation. But does the convergence extend to model weights? While models with different architectures might not have compatible weight spaces, there exists ample evidence that models with the same architecture will often converge to the same basin of weights</li>
+<li>Apparently, well trained vision and language encoders exhibit high semantic similarity. [Paper] We sampled a variety of models trained either solely on vision or solely on language, and compared their representations as they became larger and more competent over many tasks. To test that, the authors sampled the wikipedia captions dataset and used the following formulation: 
+$$K_{img} = (f_{img}(x_i), f_{img}(x_j))$$ $$K_{text} = (f_{text}(x_i), f_{text}(x_j))$$</li>
+<li>[Paper] This has been previously termed as the Contravariance principle by Cao &amp; Yamins (2024), which states that the set of solutions to an easy goal is large, while the set of solutions to a challenging goal is comparatively smaller. </li>
+<li>Apparently the entire machine learning pipeline mathematically given by $f^*=argmin_{f \epsilon F} E_{x ~ D} [L(f, x) + R(f)]$ also has problems: <ul>
+<li>Since we've been scaling data to infinity, as more models are trained on internet-scale data, the set of solutions that satisfies all data constraints must become relatively small.</li>
+<li>Modern representation algorithms (ex: autoregressive language modelling, contrastive learning) also optimize for multi-task performance.</li>
+<li>When different training objectives share similar minimizers, larger models are better at finding these minimizers, and will train to similar solutions over the training tasks.</li>
+<li>They also argue that there's a simplicity bias that is being imposed by the rigorous regularization we apply to the model weights when it produces complex representations for normal objects (for ex: a dog). </li>
+</ul>
+</li>
+<li>[Paper] Their hypotheses, as stated: <ul>
+<li><strong>The capacity hypothesis</strong>: Bigger models are more likely to converge to a shared representation than smaller models</li>
+<li><strong>Simplicity bias hypothesis</strong>: Deep networks are biased toward finding simple fits to the data, and the bigger the model, the stronger the bias. Therefore, as models get bigger, we should expect convergence to a smaller solution space.</li>
+<li><strong>The multitask scaling hypothesis</strong>: There are fewer representations that are competent for N tasks than there are for M &lt; N tasks. As we train more general models that solve more tasks at once, we should expect fewer possible solutions</li>
+</ul>
+</li>
+<li>They argue that scale + efficient methods can yield good performance. </li>
+<li>[Paper] representational convergence could act as a bridge that lets us find mappings between domains even without paired data; this may underlie the success of unpaired translation in vision and language. What makes them adaptable to the new modalities is that they share a common modality-agnostic representation, and can readily process representations of new modalities.</li>
+<li>They also presented that sufficiently large LLMs show highb similarity for colors. Have to reproduce their experiments on Appendix D. </li>
 </ul></article> </body> </html>
