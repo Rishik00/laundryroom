@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Why DPO is a misspecified estimator and how to fix it</title>
+<meta name="author" content="The Laundry Room">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<article>
+<header><h1>Why DPO is a misspecified estimator and how to fix it</h1></header>
+<p>URL:</p>
+<p><a href="https://arxiv.org/pdf/2512.10561">Read it here</a></p>
+<blockquote>
+<p>We show that DPO encodes a statistical estimation problem over the reward function induced by a policy class. </p>
+</blockquote>
+<ul>
+<li>Okay, Claude's explanation is that the reward function is dependent on the model's architecture rather than being explicitly specified, compared to RLHF that has 2 steps - first learn a good reward function and then tune based on policy against it. </li>
+</ul>
+<blockquote>
+<p>Despite the widespread appeal, however the design of DPO rests on the idealized assumption that the policy class is tabular, i.e it includes every possible IO conditional probability distribution $\pi(a | s)_{s, a}$ denotes prompt and response strings, respectively.</p>
+</blockquote>
+<ul>
+<li>Okay, this just means that the probability distribution of the policy should cover every possible behavior for a prompt-response pattern. </li>
+<li>However, real world LLMs are dependent on parameters and use different architectures; hence not making them a tabular policy class. </li>
+<li>Contributions: <ol>
+<li>Showing that for general parametric policy classes, there is a misspecified statistical estimation at the core of the DPO algorithm by design. It is equivalent to doing a weighted KL projection of the true reward function onto the manifold of reward functions induced by the policy class. (In other words, the DPO loss fn is a projection of the true reward function that is induced by the parametric nature.)</li>
+<li>DPO suffers with order reversal of preferences, sensitivity of preference data frequencies. </li>
+<li>Introduction of auxiliary terms to the DPO loss function after studying the geometry of a DPO tuned model. </li>
+</ol>
+</li>
+</ul></article></body></html>

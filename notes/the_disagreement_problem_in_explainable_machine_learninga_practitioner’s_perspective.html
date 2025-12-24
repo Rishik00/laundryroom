@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Disagreement Problem in Explainable Machine LearningA Practitioner’s Perspective</title>
+<meta name="author" content="The Laundry Room">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<article>
+<header><h1>The Disagreement Problem in Explainable Machine LearningA Practitioner’s Perspective</h1></header>
+<p><a href="https://arxiv.org/abs/2202.01602">Read it here</a></p>
+<ul>
+<li>The disagreement problem in explainable ML states that two different methods often time may not always give the same explanations, leading to conflicts. The authors claim that the problem of disagreement has not been thoroughly explored. </li>
+<li>The approach to this problem is simple: the authors conducted numerous semi-structured interviews with experienced data scientists and practitioners who commonly employ state of the art explanation methods such as SHAP or LIME and asked the following questions: <ul>
+<li>How often do they use multiple explanation methods to understand the same model predictions? </li>
+<li>What constitutes disagreement between two explanations that explain the same model prediction? </li>
+<li>How often do you encounter disagreements between explanations output by different methods for the same model prediction? </li>
+</ul>
+</li>
+<li>Insights: <ul>
+<li>88% of the data scientists use multiple explanation methods commonly. </li>
+<li>84% of data scientists find themselves in disagreement situations constantly. </li>
+<li>They consider disagreements as: <ul>
+<li>Top features are different, and the same was vouched by 84% of data scientists</li>
+<li>Ordering among the top features is different, said by 70% of the participants. </li>
+<li>Not only magnitude of the importance of top features is different, but so is the direction, vouched by 76$ of participants</li>
+<li>Participants also hinted towards the relative ordering and interactions between some important features can also be a flag of disagreement.</li>
+</ul>
+</li>
+<li>The fundamental problem here isnt the methods or the numbers themselves, because SHAP and LIME use different methods for explaining the models decisions. But the participants were highly concerned with the inconsistency of insights being delivered by these methods. </li>
+</ul>
+</li>
+<li>The authors want to quantify these insights, so they propose the following metrics: <ul>
+<li>Feature agreement: ML practitioners in interviews indicated that a key notion of disagreement was the differences in the top-k features list. <strong>Feature agreement is the fraction of common features between the sets of top-k features. </strong></li>
+<li>Rank agreement: Not only are there different features, but also the ordering amongst the features is also different, leading ML practitioners to conclude its a disagreement. <strong>Rank agreement is the fraction of features that are not only common but also share the same rank. </strong></li>
+<li>Sign agreement: Another possible area for disagreement is the sign of the feature importance, hence we compute the <strong>sign agreement; aka the fraction of features that are not only common but also have the same sign. </strong></li>
+<li>Signed rank agreement: This metric fuses the above three agreements. This is the strictest measure of disagreement. </li>
+<li>Rank correlation: hmm, this thing is interesting. It calculates the spearman correlation coefficient between feature rankings provided by two explanations. </li>
+<li>Pairwise rank agreement: <strong>The pairwise rank agreement takes an input set of features that are of interest to the user and computes the fraction of feature pairs for which the relative ordering is the same. </strong>(dont really know what this means)</li>
+</ul>
+</li>
+<li>Experimental setup: Using these metrics the authors now conduct an empirical study for tabular, text and image based datasets. They choose the following datasets and models</li>
+<li>Additional context: the methods used for explaining these outputs are: SHAP, kernel SHAP, LIME. Grad, Grad Input, IntGrad, Smooth Grad. <ul>
+<li>For tabular: <ul>
+<li>Datasets: COMPAS, ProPublica, German Credit datasets</li>
+<li>Models: logistic regression, FFN, Random forest, GBMs</li>
+<li><strong>Insights</strong>: <ul>
+<li>For the correlation plots, lighter colors means stronger disagreement. Whats observed is that there are stronger disagreements between these methods, highlighted by the high values of pairwise rank agreement and feature agreement, and all others being relatively low. </li>
+<li>When the neural network was trained and the metrics were checked, as top-k features and some of the metrics (rank and sign rank agreement) have an inverse relationship. </li>
+<li>Some explanation methods were having higher percentages of disagreements with other pairs. </li>
+<li>It was also observed that the strength of these disagreements was also dependent on the model complexity. Thus making it more difficult to generate accurate explanations for higher complexity models. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For text: <ul>
+<li>Datasets: Antonio Gulli’s corpus of news articles</li>
+<li>Models: LSTM</li>
+<li><strong>Insights:</strong><ul>
+<li>It’s a little bit different here, because the words themselves are the features now, so the setting is to take the metrics for k=11 which is about 25% of the average length in the dataset. (Thats low, they should’ve taken a bit more)</li>
+<li>There is a lot of disagreement between different explanation strategies. This is actually consistent with what was said earlier about model complexity. </li>
+<li>LIME tends to have higher agreements with SHAP. But I dont think this is done properly, maybe I can take this up? </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For images: <ul>
+<li>Datasets: Imagenet</li>
+<li>Model: pre-trained version of ResNet-18 </li>
+<li>Insights: <ul>
+<li>There’s a bit of a problem here; LIME and kernel SHAP consider super pixels (wtf) to be features whereas gradient based methods consider pixels as features.</li>
+<li>LIME and Kernel SHAP have higher agreements this time: ranging from 0.80 - 0.90,, maybe because they compute the features similarly? But the opposite is true for the others unfortunately, as they tend to show stronger disagreements. </li>
+<li>So for images and text, it might be depending on the granularity to which we can afford to go. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Overall Remarks</strong>:  Anything other than tabular is a nightmare fr. </li>
+</ul>
+</li>
+<li>A qualitative study: Using one of the above datasets and models (COMPAS), the authors now conducted a qualitative study with a group of ML practitioners and they asked the following questions after giving them these results: <ul>
+<li>To what extent do you think the methods agree or disagree with each other? </li>
+<li>Since you believe that the methods disagree, why? (asked to those that have said disagree)</li>
+<li>Which method would you rely on the most?</li>
+<li>Insights: For the first question, about 50% of these people said strongly disagree</li>
+</ul>
+</li>
+</ul></article></body></html>
