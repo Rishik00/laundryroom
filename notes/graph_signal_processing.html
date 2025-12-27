@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Graph Signal Processing Framework for Hallucination Detection in Large Language Models</title>
+<meta name="author" content="The Laundry Room">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<article>
+<header><h1>A Graph Signal Processing Framework for Hallucination Detection in Large Language Models</h1></header>
+<p>URL:
+Date Added:
+Status:</p>
+<p><a href="https://arxiv.org/pdf/2510.19117v1">Read it here</a></p>
+<ul>
+<li>[Paper] Through graph signal processing, we define diagnostics including Dirichlet energy, spectral entropy, and high frequency energy ratios, with theoretical connections to computational stability.</li>
+<li>According to the authors, attention graphs are induced over the tokens and their representations evolve through the layers. This allows for graph signal processing methods to be applied on these things. </li>
+<li>
+<p>Contributions: </p>
+<ul>
+<li>Formalize transformer dynamics as graph signals and derive spectral diagnostics with theoretical guarantees.</li>
+<li>Establishing universal spectral patterns across architectures: reliable reasoning exhibits systematic low frequency concentration while errors signal higher frequencies. </li>
+<li>Demonstrate that different error types leave characteristic spectral fingerprints, enabling principled detection methods</li>
+</ul>
+</li>
+<li>
+<p>Process: </p>
+<ol>
+<li>Take the attention heads and calculate a weighted average. </li>
+<li>Calculate the layer laplacian on these weights. Given by:  $L_l = D_l - W_l$ that has eigenvalues $0 \leq \lambda_1 \leq \lambda_2\ .... \leq \lambda_n$.</li>
+<li>The drichlet energy of these eigenvalues is $x^TLx=\sum W_{ij}(x_i-x_j)^2=\sum\lambda x^2$. </li>
+<li>They define a smoothness index $\epsilon_l/Tr((X_l)^TX_l)$ where $\epsilon$ is the energy defined by:
+$$\epsilon=\sum (x_k^l)^TL_lx_k^l=Tr((X_l)^TX_l)$$</li>
+<li>They also define spectral energies $s_m=||X^l||^2_2$ and the spectral entropy $SE=-\sum p^l logp^l$ and the high frequency energy ratio is defined by: 
+        $$HFER=\frac{\sum s_m^l}{\sum s_m^l}$$</li>
+</ol>
+</li>
+<li>Results for hallucinations: <ul>
+<li><strong>For GPT-2, GPT-2 medium, DistilGPT</strong>: All architectures follow the energy mountain: initial low energy (∼10K), sharp buildup (2.0M–9.0M peak), and dissipation to ∼0.1M at output. Energy-wise they have very similar patterns, a huge arc in the middle and dip at the end (Similar trends for smoothness index, HFER).</li>
+<li>While logical hallucinations clearly exceed baseline variability, semantic hallucinations often remain within factual variance for primary metrics (HFER, entropy, SMI). Their detection relies on subtler secondary 7 signatures (Fiedler drift). This indicates that variance-based thresholds are insufficient: future work should develop adaptive, layerwise statistical detectors and account for multiple comparisons.</li>
+</ul>
+</li>
+</ul></article></body></html>

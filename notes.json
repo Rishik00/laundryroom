@@ -36,5 +36,11 @@
         "date": "2025-12-25",
         "description": "Disagreements in explainable ML",
         "link": "notes/the_disagreement_problem_in_explainable_machine_learninga_practitioner’s_perspective.html"
+    },
+    {
+        "title": "A Graph Signal Processing Framework for Hallucination Detection in Large Language Models",
+        "date": "2025-12-27",
+        "description": "A spectral analysis framework to analyse hallucinations in LLMs",
+        "link": "notes/graph_signal_processing.html"
     }
 ]
