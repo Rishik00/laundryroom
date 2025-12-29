@@ -48,5 +48,11 @@
         "date": "2025-12-29",
         "description": "Empty",
         "link": "notes/token_embeddings_violate_the_manifold_hypothesis.html"
+    },
+    {
+        "title": "Efficient Estimation of Word Representations in Vector Space (Word2vec)",
+        "date": "2025-12-29",
+        "description": "Word2Vec, who doesn't love that?",
+        "link": "notes/word2vec.html"
     }
 ]

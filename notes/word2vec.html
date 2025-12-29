@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Efficient Estimation of Word Representations in Vector Space (Word2vec)</title>
+<meta name="author" content="The Laundry Room">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<article>
+<header><h1>Efficient Estimation of Word Representations in Vector Space (Word2vec)</h1></header>
+<p>URL:
+Date Added:
+Status:</p>
+<ul>
+<li>[Abstract] The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks.</li>
+<li>[Intro] Goals of the paper: <ul>
+<li>To learn high quality word vectors for large datasets</li>
+<li>Try to maximize accuracy of these vector operations by developing new model architectures that preserve the linear regularities among words</li>
+</ul>
+</li>
+<li>[Intro] We use recently proposed techniques for measuring the quality of the resulting vector representations, with the expectation that not only will similar words tend to be close to each other, but that words can have multiple degrees of similarity.</li>
+<li>Traditional models involved multi layered neural nets that were deemed expensive computationally and time-wise (before you say skill issues, this was in 2013. let that sink in doofus).</li>
+<li>They propose using CBOW (continuous bag of words). The task is to classify the correct middle word given a history of starting and ending words. They removed the middle projection layers and summed the word representations before the final output projection. </li>
+<li>They also propose CSG (Continuous skip-gram) that doesn't rely on the context (history if you will) but predicts the rest of the...context (wait wtf). </li>
+<li>[Results] To find a word that is similar to small in the same sense as biggest is similar to big, we can simply compute vector X = vector(”biggest”)−vector(”big”) + vector(”small”). </li>
+<li>[Results] <strong>They were right on the money with this take</strong> - Finally, we found that when we train high dimensional word vectors on a large amount of data, the resulting vectors can be used to answer very subtle semantic relationships between words, such as a city and the country it belongs to, e.g. France is to Paris as Germany is to Berlin. Word vectors with such semantic relationships could be used to improve many existing NLP applications, such as machine translation, information retrieval and question answering systems, and may enable other future applications yet to be invented. </li>
+<li>[Results] They train their vectors on over 784M tokens (google news) and over 6B for training their neural nets. Their results report substantial improvements compared to similar methods while being a lot faster for training. </li>
+</ul></article></body></html>
