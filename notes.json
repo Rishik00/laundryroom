@@ -42,5 +42,11 @@
         "date": "2025-12-27",
         "description": "A spectral analysis framework to analyse hallucinations in LLMs",
         "link": "notes/graph_signal_processing.html"
+    },
+    {
+        "title": "Token embeddings violate the manifold hypothesis",
+        "date": "2025-12-29",
+        "description": "Empty",
+        "link": "notes/token_embeddings_violate_the_manifold_hypothesis.html"
     }
 ]

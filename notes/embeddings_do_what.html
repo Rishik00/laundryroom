@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Token embeddings violate the manifold hypothesis</title>
+<meta name="author" content="The Laundry Room">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<article>
+<header><h1>Token embeddings violate the manifold hypothesis</h1></header>
+<p>URL:
+Date Added:</p>
+<p><a href="https://arxiv.org/abs/2504.01002">read it here</a></p>
+<h3>Background</h3>
+<p>In short, this paper is complicated. It requires some background on manifolds so laying out some definitions here: 
+- A manifold is a space where every point has a Euclidean neighborhood. 
+- The dimension of a manifold is the dimension of the Euclidean space(assuming that the manifold is connected)
+- For any manifold M, an embedding is a map $f:M \rightarrow R^n$  where n &gt; d (dimension of the manifold). According to claude it is a "faithful way" to place the manifold into Euclidean space. 
+- Apparently embeddings are needed because the manifolds themselves don't have a coordinate system. </p>
+<h3>Notes</h3>
+<ul>
+<li>[Abstract] The aim is to understand the curvature of the token embeddings in LLMs. They pose a null hypothesis that the surroundings of a token are flat and smooth structure. </li>
+<li>[Intro] In many—if not most—AI research papers, a manifold hypothesis is tacitly assumed, that the data are concentrated near a low curvature manifold without boundary.</li>
+<li>The first layer of most LLMs is mostly comprised of token embeddings, which are vector representations of <em>tokens</em>. Thus, a good first step to explain the behavior of an LLM is to understand the <em>first initial set of tokens</em>.</li>
+<li>Contributions: <ul>
+<li>Two novel statistical tests. </li>
+<li>Evidence to reject both hypotheses for several LLMs. </li>
+<li>The identification of the unreported structures of these embeddings in the LLMs. </li>
+</ul>
+</li>
+<li>Because connected manifolds have a unique dimension, and because the dimension of fiber bundles are characterized by a <strong>Theorem-1</strong>, which states that for a fiber bundle the number of tokens within a ball of a given radius r centered for a fixed token is a piecewise loglinear function of radius in which the slopes correspond to dimension, and the slopes cannot increase as r increases. <strong>Let's try to interpret this in a better way</strong></li>
+<li>The hypothesis tests are defined like this using fiber bundles: <ul>
+<li>H0 (null hypothesis): The dimension at any token embedding $\phi$ in a ball of radius r does not increase as r increases. </li>
+<li>H1 (alternate hypothesis): The dimension at $\phi$ increases at some radius r. </li>
+<li>Setup: suggests that the thing to prove is that token embeddings do not have smooth manifolds. </li>
+</ul>
+</li>
+<li>For the manifold: <ul>
+<li>H0 (null): There is a unique dimension at $\phi$</li>
+<li>H1 (alternate): H0 is not true.</li>
+</ul>
+</li>
+<li>They want to find out whether the so called singularities affect the outputs of the LLM. </li>
+<li>The algorithm they suggested does the following: <ul>
+<li>Compute n x n distance matrix for all the token indices. </li>
+<li>For each column, we retain rows $v_{max}$ through $v_{max}$.</li>
+<li>Compute log slopes along the column</li>
+<li>Run T-Tests.</li>
+</ul>
+</li>
+<li>The experiments were performed on a synthetic dataset on Pythia, Llama, Mistral, GPT</li>
+</ul></article></body></html>
