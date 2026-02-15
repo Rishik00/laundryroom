@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes - The Laundry Room</title>
+    <title>Libraries/Utilities - The Laundry Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-        
+
         :root {
             --bg-body: #0a0a0a;
             --bg-card: #171717;
@@ -33,7 +33,7 @@
             background-color: rgba(229, 229, 229, 0.15);
             color: #ffffff;
         }
-        
+
         .content-area {
             max-width: 46rem;
         }
@@ -57,7 +57,7 @@
             color: var(--accent-color);
             border-bottom-color: var(--accent-color);
         }
-        
+
         nav a {
             border-bottom: none;
         }
@@ -83,7 +83,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: staggeredFadeIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: var(--delay, 0s); 
+            animation-delay: var(--delay, 0s);
         }
 
         @keyframes staggeredFadeIn {
@@ -98,13 +98,13 @@
 
     <header class="bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#262626]">
         <nav class="content-area mx-auto px-6 h-16 flex justify-between items-center">
-            <a href="#" onclick="window.location.href='index.html'" class="text-xl font-bold tracking-tight hover:text-white transition-colors brand-font brand-glow">
+            <a href="index.html" class="text-xl font-bold tracking-tight hover:text-white transition-colors brand-glow">
                 The Laundry Room
             </a>
             <ul class="flex space-x-6 text-sm">
-                <li><a href="#" onclick="window.location.href='index.html'" class="nav-link">Intro</a></li>
-                <li><a href="#" onclick="window.location.href='libraries.html'" class="nav-link">Libraries/Utilities</a></li>
-                <li><a href="#" class="nav-link active">Notes</a></li>
+                <li><a href="index.html" class="nav-link">Intro</a></li>
+                <li><a href="libraries.html" class="nav-link active">Libraries/Utilities</a></li>
+                <li><a href="notes.html" class="nav-link">Notes</a></li>
                 <li><a href="github.com/LaundryRoom" class="nav-link">Github</a></li>
             </ul>
         </nav>
@@ -112,12 +112,12 @@
 
     <main class="content-area mx-auto px-6 py-16 min-h-screen">
         <div class="flex justify-between items-baseline mb-12 border-b border-[#262626] pb-4 stagger-item" style="--delay: 0.1s;">
-            <h2 class="text-2xl font-bold text-white">Archives</h2>
-            <span class="text-[#525252] text-xs mono-font uppercase">Sorted by Date</span>
+            <h2 class="text-2xl font-bold text-white">Libraries / Utilities</h2>
+            <span class="text-[#525252] text-xs mono-font uppercase">Loaded from JSON</span>
         </div>
-        
-        <div id="notes-container">
-            <!-- Notes will be dynamically loaded here -->
+
+        <div id="libraries-container">
+            <!-- Libraries will be dynamically loaded here -->
         </div>
     </main>
 
@@ -126,51 +126,48 @@
     </footer>
 
     <script>
-        async function loadNotes() {
-            const container = document.getElementById('notes-container');
-    
+        async function loadLibraries() {
+            const container = document.getElementById('libraries-container');
+
             try {
-                const response = await fetch('notes.json');
-                const notesData = await response.json();
-    
-                notesData.forEach((note, index) => {
+                const response = await fetch('libraries.json');
+                const libraries = await response.json();
+
+                libraries.forEach((item, index) => {
                     const article = document.createElement('article');
                     article.className = 'post-entry group stagger-item';
-                    article.style.setProperty('--delay', `${0.3 + index * 0.2}s`);
-    
+                    article.style.setProperty('--delay', `${0.3 + index * 0.15}s`);
+
                     article.innerHTML = `
                         <div class="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
                             <h3 class="text-xl font-bold text-[#e5e5e5] group-hover:text-white transition-colors">
-                                <a href="${note.link}" style="border-bottom: none;">
-                                    ${note.title}
-                                </a>
+                                ${item.name}
                             </h3>
                             <span class="text-xs mono-font text-[#525252] mt-1 md:mt-0">
-                                ${note.date}
+                                ${item.status}
                             </span>
                         </div>
                         <p class="text-[#a3a3a3] mb-3 text-sm leading-relaxed">
-                            ${note.description}
+                            ${item.description}
                         </p>
                         <div class="flex items-center space-x-3 text-xs font-medium text-[#525252] mono-font">
                             <span class="bg-[#171717] px-2 py-1 rounded text-white/80">
-                                ${note.badge}
+                                ${item.badge}
                             </span>
-                            <span>${note.category}</span>
+                            <span>${item.category}</span>
                         </div>
                     `;
-    
+
                     container.appendChild(article);
                 });
             } catch (err) {
-                console.error('Failed to load notes.json', err);
-                container.innerHTML = `<p class="text-red-400">Failed to load notes.</p>`;
+                console.error('Failed to load libraries.json', err);
+                container.innerHTML = `<p class="text-red-400">Failed to load libraries.</p>`;
             }
         }
-    
-        window.addEventListener('load', loadNotes);
+
+        window.addEventListener('load', loadLibraries);
     </script>
-    
 
 </body>
 </html>

@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Maker",
+    "status": "Active",
+    "description": "A templating library for my Python libraries. I have not used it heavily yet, but I will continue building with it.",
+    "badge": "LIBRARY",
+    "category": "Python Tooling"
+  },
+  {
+    "name": "Laundry Notes",
+    "status": "Active",
+    "description": "A highly customized Markdown-to-HTML workflow that supports a custom template and custom CSS file per run.",
+    "badge": "CONVERTER",
+    "category": "Content Pipeline"
+  },
+  {
+    "name": "Paper DB",
+    "status": "Active",
+    "description": "A CLI utility that converts Google Sheets by sheet ID into Markdown in an Obsidian-style format.",
+    "badge": "CLI",
+    "category": "Excel to Markdown"
+  },
+  {
+    "name": "Picocrat",
+    "status": "Active",
+    "description": "A tiny PyTorch-focused library that I experimented with.",
+    "badge": "ML LIBRARY",
+    "category": "PyTorch"
+  },
+  {
+    "name": "Nano CTM",
+    "status": "In Progress",
+    "description": "A work-in-progress nanoGPT-style repository to distill Continuous Thought Machines into a modular library people can extend with their own components.",
+    "badge": "WIP",
+    "category": "Research Library"
+  }
+]
